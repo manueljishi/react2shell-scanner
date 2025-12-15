@@ -38,6 +38,51 @@ The `--windows` flag switches the payload from Unix shell (`echo $((41*271))`) t
 pip install -r requirements.txt
 ```
 
+## Docker
+
+Run the scanner in an isolated container without installing dependencies locally.
+
+### Build
+
+```
+docker build -t react2shell-scanner .
+```
+
+### Run
+
+Scan a single host:
+
+```
+docker run --rm react2shell-scanner -u https://example.com
+```
+
+Scan a list of hosts (mount the file into the container):
+
+```
+docker run --rm -v ./hosts.txt:/app/hosts.txt react2shell-scanner -l hosts.txt
+```
+
+Save results to a local file:
+
+```
+docker run --rm -v ./output:/app/output react2shell-scanner -u https://example.com -o output/results.json
+```
+
+With additional options:
+
+```
+docker run --rm react2shell-scanner -u https://example.com --safe-check -v
+docker run --rm react2shell-scanner -u https://example.com --waf-bypass
+```
+
+Scan with a paths file:
+
+```
+docker run --rm -v ./paths.txt:/app/paths.txt react2shell-scanner -u https://example.com --path-file paths.txt
+```
+
+The `--rm` flag removes the container after execution, keeping the environment ephemeral.
+
 ## Usage
 
 Scan a single host:
